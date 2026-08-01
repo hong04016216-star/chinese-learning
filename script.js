@@ -6,12 +6,23 @@ const API_URL =
 
 let vocab = [];
 
+// 只建立一個播放器
+let player = new Audio();
+
 // 播放 MP3
 function speak(file){
 
-    const audio = new Audio("audio/" + file);
+    if(!file){
+        alert("沒有中文 MP3");
+        return;
+    }
 
-    audio.play().catch(()=>{
+    player.pause();
+    player.currentTime = 0;
+
+    player.src = "audio/" + file;
+
+    player.play().catch(()=>{
         alert("找不到 MP3：" + file);
     });
 
@@ -36,10 +47,14 @@ function render(list){
 
         const b = tr.querySelectorAll("button");
 
-        b[0].onclick = ()=>speak(r["中文"] + ".mp3");
+        // 中文 MP3
+        b[0].onclick = ()=>speak(r["中文MP3"]);
 
+        // 泰文 MP3（以後再做）
         b[1].onclick = ()=>{
+
             alert("泰文 MP3 尚未建立");
+
         };
 
         tb.appendChild(tr);
