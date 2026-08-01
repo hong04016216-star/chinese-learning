@@ -1,38 +1,97 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>中文學習</title>
-<link rel="stylesheet" href="style.css">
-</head>
+const tb = document.getElementById("tb");
+const q = document.getElementById("q");
 
-<body>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzx6VGPZndEmPtTIaYqCkVtgCdnXlFNG9sW3tMJ1cUYI2_CRuhCTxmnJKZ0rz71ah2r/exec";
 
-<h1>中文學習</h1>
+let vocab = [];
 
-<input id="q" placeholder="搜尋中文、泰文、拼音">
+// 共用播放器
+const player = new Audio();
 
-<table>
-<thead>
-<tr>
-<th>中文</th>
-<th>泰文</th>
-<th>拼音</th>
-<th>中文MP3🔊</th>
-<th>分類</th>
-</tr>
-</thead>
+function speak(file){
 
-<tbody id="tb"></tbody>
+    if(!file){
+        alert("沒有 MP3");
+        return;
+    }
 
-</table>
+    player.pause();
+    player.currentTime = 0;
 
-<!-- 先載入 Papa Parse -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    player.src = "audio/" + file;
 
-<!-- 再載入你的程式 -->
-<script src="script.js"></script>
+    player.play().catch(()=>{
+        alert("找不到 MP3：" + file);
+    });
 
-</body>
-</html>
+}
+
+// 顯示資料
+function render(list){
+
+    tb.innerHTML = "";
+
+    list.forEach(r=>{
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${r["中文"]}</td>
+            <td>${r["泰文"]}</td>
+            <td>${r["拼音"]}</td>
+
+            <td>
+                <button class="playBtn">🔊</button>
+            </td>
+
+            <td>${r["分類"] || ""}</td>
+        `;
+
+        tr.querySelector(".playBtn").onclick = ()=>{
+            speak(r["中文MP3"]);
+        };
+
+        tb.appendChild(tr);
+
+    });
+
+}
+
+// 讀取 Google 試算表
+fetch(API_URL)
+.then(r=>r.json())
+.then(data=>{
+
+    console.log(data);
+
+    vocab = data;
+
+    render(vocab);
+
+})
+.catch(err=>{
+
+    console.error(err);
+
+    alert("無法讀取 Google 試算表");
+
+});
+
+// 搜尋
+q.addEventListener("input",()=>{
+
+    const keyword = q.value.toLowerCase();
+
+    const result = vocab.filter(r=>{
+
+        return Object.values(r)
+            .join(" ")
+            .toLowerCase()
+            .includes(keyword);
+
+    });
+
+    render(result);
+
+});
