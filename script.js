@@ -63,7 +63,6 @@ fetch(CSV_URL)
 
     });
 
-    render(vocab);
 
 });
 
