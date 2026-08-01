@@ -6,14 +6,14 @@ const API_URL =
 
 let vocab = [];
 
-// 只建立一個播放器
-let player = new Audio();
+// 共用播放器
+const player = new Audio();
 
 // 播放 MP3
-function speak(file){
+function speak(file) {
 
-    if(!file){
-        alert("沒有中文 MP3");
+    if (!file) {
+        alert("沒有 MP3");
         return;
     }
 
@@ -22,39 +22,35 @@ function speak(file){
 
     player.src = "audio/" + file;
 
-    player.play().catch(()=>{
+    player.play().catch(() => {
         alert("找不到 MP3：" + file);
     });
 
 }
 
 // 顯示資料
-function render(list){
+function render(list) {
 
     tb.innerHTML = "";
 
-    list.forEach(r=>{
+    list.forEach(r => {
 
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
-            <td>${r["中文"]}</td>
-            <td>${r["泰文"]}</td>
-            <td>${r["拼音"]}</td>
-            <td><button>🇹🇼🔊</button></td>
-            <td><button>🇹🇭🔊</button></td>
+            <td>${r["中文"] || ""}</td>
+            <td>${r["泰文"] || ""}</td>
+            <td>${r["拼音"] || ""}</td>
+
+            <td>
+                <button class="playBtn">🔊</button>
+            </td>
+
+            <td>${r["分類"] || ""}</td>
         `;
 
-        const b = tr.querySelectorAll("button");
-
-        // 中文 MP3
-        b[0].onclick = ()=>speak(r["中文MP3"]);
-
-        // 泰文 MP3（以後再做）
-        b[1].onclick = ()=>{
-
-            alert("泰文 MP3 尚未建立");
-
+        tr.querySelector(".playBtn").onclick = () => {
+            speak(r["中文MP3"]);
         };
 
         tb.appendChild(tr);
@@ -63,10 +59,10 @@ function render(list){
 
 }
 
-// 讀取 Google 試算表
+// 載入資料
 fetch(API_URL)
-.then(r=>r.json())
-.then(data=>{
+.then(response => response.json())
+.then(data => {
 
     console.log(data);
 
@@ -75,30 +71,28 @@ fetch(API_URL)
     render(vocab);
 
 })
-.catch(err=>{
+.catch(error => {
 
-    console.error(err);
+    console.error(error);
 
     alert("無法讀取 Google 試算表");
 
 });
 
 // 搜尋
-q.addEventListener("input",()=>{
+q.addEventListener("input", () => {
 
-    const t = q.value.toLowerCase();
+    const keyword = q.value.trim().toLowerCase();
 
-    render(
+    const result = vocab.filter(r => {
 
-        vocab.filter(r=>
+        return Object.values(r)
+            .join(" ")
+            .toLowerCase()
+            .includes(keyword);
 
-            Object.values(r)
-                .join(" ")
-                .toLowerCase()
-                .includes(t)
+    });
 
-        )
-
-    );
+    render(result);
 
 });
