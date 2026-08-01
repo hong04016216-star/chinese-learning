@@ -2,7 +2,7 @@ const tb = document.getElementById("tb");
 const q = document.getElementById("q");
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzx6VGPZndEmPtTIaYqCkVtgCdnXlFNG9sW3tMJ1cUYI2_CRuhCTxmnJKZ0rz71ah2r/exec?v=1";
+"https://script.google.com/macros/s/AKfycbzx6VGPZndEmPtTIaYqCkVtgCdnXlFNG9sW3tMJ1cUYI2_CRuhCTxmnJKZ0rz71ah2r/exec";
 
 let vocab = [];
 
