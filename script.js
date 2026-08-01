@@ -53,14 +53,19 @@ Papa.parse(CSV_URL, {
 
     download: true,
     header: true,
-
+    
     complete: function(results) {
 
-        vocab = results.data.filter(r => r["中文"]);
+    console.log(results);
 
-        render(vocab);
+    vocab = results.data.filter(r => r["中文"]);
 
-    },
+    console.log(vocab);
+
+    render(vocab);
+
+},
+
 
     error: function(err) {
 
