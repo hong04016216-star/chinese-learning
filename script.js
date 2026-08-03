@@ -1,3 +1,5 @@
+
+alert("123456");
 const tb = document.getElementById("tb");
 const q = document.getElementById("q");
 
