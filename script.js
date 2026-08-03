@@ -38,15 +38,14 @@ function render(list) {
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
-            <td>${r["中文"] || ""}</td>
-            <td>${r["泰文"] || ""}</td>
-            <td>${r["拼音"] || ""}</td>
-
             <td>
+                ${r["中文"] || ""}
                 <button class="playBtn">🔊</button>
             </td>
 
-            <td>${r["分類"] || ""}</td>
+            <td>${r["泰文"] || ""}</td>
+
+            <td>${r["拼音"] || ""}</td>
         `;
 
         tr.querySelector(".playBtn").onclick = () => {
