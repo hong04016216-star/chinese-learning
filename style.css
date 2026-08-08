@@ -1,3 +1,43 @@
 body{font-family:Arial,'Noto Sans TC',sans-serif;max-width:900px;margin:20px auto;padding:10px}
 table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:8px}button{cursor:pointer}
 input{width:100%;padding:8px;margin:10px 0}
+.card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+    margin: 12px 0;
+
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.chinese {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.pinyin {
+    margin-top: 8px;
+    font-size: 18px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.thai {
+    margin-top: 8px;
+    font-size: 21px;
+    line-height: 1.5;
+}
+
+.playBtn {
+    margin-left: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 20px;
+}

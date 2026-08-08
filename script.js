@@ -1,4 +1,3 @@
-
 const tb = document.getElementById("tb");
 const q = document.getElementById("q");
 
@@ -36,30 +35,36 @@ function render(list) {
 
     list.forEach(r => {
 
-        const tr = document.createElement("tr");
+        const card = document.createElement("div");
 
-        tr.innerHTML = `
-            <td>
+        card.className = "card";
+
+        card.innerHTML = `
+            <div class="chinese">
                 ${r["中文"] || ""}
                 <button class="playBtn">🔊</button>
-            </td>
+            </div>
 
-            <td>${r["泰文"] || ""}</td>
+            <div class="pinyin">
+                ${r["拼音"] || ""}
+            </div>
 
-            <td>${r["拼音"] || ""}</td>
+            <div class="thai">
+                ${r["泰文"] || ""}
+            </div>
         `;
 
-        tr.querySelector(".playBtn").onclick = () => {
+        card.querySelector(".playBtn").onclick = () => {
             speak(r["中文MP3"]);
         };
 
-        tb.appendChild(tr);
+        tb.appendChild(card);
 
     });
 
 }
 
-// 載入資料
+// 讀取 Google 試算表
 fetch(API_URL)
 .then(response => response.json())
 .then(data => {
